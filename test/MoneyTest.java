@@ -7,13 +7,11 @@ import static org.junit.Assert.assertTrue;
 
 public class MoneyTest {
     @Test
-    public void testMultiplication_given5times2_expected10_given5times3_expecteed15() {
+    public void testMultiplication_given5timess2_expected10_given5timess3_expecteed15() {
         Dollar five = new Dollar(5);
 
-        Dollar product = five.time(2);
-        assertEquals(10, product.amount);
-        product = five.time(3);
-        assertEquals(15, product.amount);
+        assertEquals(new Dollar(10).amount, five.times(2).amount);
+        assertEquals(new Dollar(15).amount, five.times(3).amount);
 
     }
 
@@ -27,13 +25,13 @@ public class MoneyTest {
 
 
     private class Dollar {
-        public int amount;
+        private int amount;
 
         public Dollar(int number) {
             amount = number;
         }
 
-        public Dollar time(int multiplier) {
+        public Dollar times(int multiplier) {
             return new Dollar(amount * multiplier);
 
         }
