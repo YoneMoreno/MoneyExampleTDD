@@ -1,4 +1,3 @@
-import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -30,54 +29,104 @@ public class MoneyTest {
 
     }
 
+    @Test
+    public void currencyTest(){
+        assertEquals("USD",Money.dollar(1).currency());
+        assertEquals("CHF",Money.franc(1).currency());
+    }
 
-//
+
+
+
+
+
+
 abstract static class Money{
         protected int amount;
+    protected String currency;
 
-        abstract Money times(int multiplier);
+    abstract Money times(int multiplier);
 
-        @Override
+    public Money(int amount, String currency) {
+        this.amount = amount;
+        this.currency = currency;
+    }
+
+    @Override
         public boolean equals(Object o) {
             Money money = (Money) o;
             return amount == money.amount && getClass().equals(money.getClass());
         }
 
     public static Money dollar(int amount) {
-        return new Dollar(amount);
+        return new Dollar(amount, "USD");
     }
 
     public static Money franc(int amount) {
-        return new Franc(amount);
+        return new Franc(amount,"CHF");
+    }
+
+    String currency(){
+            return currency;
     }
 }
+
+
+
+
+
+
+
 
 
     private static class Dollar extends Money {
 
 
-        public Dollar(int number) {
-            amount = number;
+        private String currency;
+
+        public Dollar(int amount, String currency) {
+            super(amount,currency);
         }
 
         public Money times(int multiplier) {
-            return new Dollar(amount * multiplier);
+            return  Money.dollar(amount * multiplier);
 
+        }
+
+        @Override
+        String currency() {
+            return currency;
         }
 
 
     }
 
+
+
+
+
+
+
+
+
+
     private static class Franc extends Money {
 
 
-        public Franc(int number) {
-            amount = number;
+        private String currency;
+
+        public Franc(int amount, String currency) {
+            super(amount,currency);
         }
 
         public Money times(int multiplier) {
-            return new Franc(amount * multiplier);
+            return Money.franc(amount * multiplier);
 
+        }
+
+        @Override
+        String currency() {
+            return currency;
         }
 
 
